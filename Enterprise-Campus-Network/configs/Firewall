@@ -1,18 +1,19 @@
 : Saved
 
 : 
-: Serial Number: 9AT2MV19A1X
+: Serial Number: 9AKEF4XG58P
 : Hardware:   ASAv, 2048 MB RAM, CPU Ryzen Zen 2 3900 MHz
-: Written by enable_15 at 06:17:56.156 UTC Sun Jun 28 2026
+: Written by enable_15 at 17:24:39.446 UTC Tue Jun 30 2026
 !
 ASA Version 9.24(1) 
 !
 hostname Firewall
-enable password $sha512$5000$yPA2JvZpW3PjgnzoIw/v0g==$W/z+hx+8k3R29m2dUdDexA== pbkdf2
+enable password $sha512$5000$GZ1derC+jzy1tL02/DU+Xg==$NpNdx7b3xiLK7iuJBAVdHg== pbkdf2
 service-module 0 keepalive-timeout 4
 service-module 0 keepalive-counter 6
 names
 no mac-address auto
+zone DMZ
 
 !
 interface GigabitEthernet0/0
@@ -22,16 +23,14 @@ interface GigabitEthernet0/0
  no ip address
 !
 interface GigabitEthernet0/1
- shutdown
- no nameif
- no security-level
- no ip address
+ nameif #DistributionA#
+ security-level 100
+ ip address 10.100.1.1 255.255.255.252 
 !
 interface GigabitEthernet0/2
- shutdown
- no nameif
- no security-level
- no ip address
+ nameif #DistributionSWB#
+ security-level 100
+ ip address 10.200.2.1 255.255.255.252 
 !
 interface GigabitEthernet0/3
  shutdown
@@ -64,10 +63,9 @@ interface GigabitEthernet0/7
  no ip address
 !
 interface GigabitEthernet0/8
- shutdown
- no nameif
- no security-level
- no ip address
+ nameif #DMZ#
+ security-level 50
+ ip address 172.16.10.254 255.255.255.0 
 !
 interface Management0/0
  no management-only
@@ -76,9 +74,13 @@ interface Management0/0
  no security-level
  no ip address
 !
+banner login #Welcome to my Firewall friend
 ftp mode passive
 no object-group-search access-control
 pager lines 23
+mtu #DistributionA# 1500
+mtu #DistributionSWB# 1500
+mtu #DMZ# 1500
 no failover
 no failover wait-disable
 no monitor-interface service-module 
@@ -98,6 +100,7 @@ timeout floating-conn 0:00:00
 timeout conn-holddown 0:00:15
 timeout igp stale-route 0:01:10
 user-identity default-domain LOCAL
+aaa authentication serial console LOCAL 
 aaa authentication login-history
 no snmp-server location
 no snmp-server contact
@@ -211,10 +214,13 @@ ssh stricthostkeycheck
 ssh timeout 5
 ssh key-exchange group dh-group14-sha256
 console timeout 0
+dhcpd domain edv.local
+!
 threat-detection basic-threat
 threat-detection statistics access-list
 no threat-detection statistics tcp-intercept
 dynamic-access-policy-record DfltAccessPolicy
+username Admin password $sha512$5000$vAeOnORuqt6y1bgz0L+muw==$l0/SA6uQGH9ETKBCKI/AXQ== pbkdf2 privilege 15
 !
 class-map inspection_default
  match default-inspection-traffic
@@ -269,5 +275,5 @@ call-home
   subscribe-to-alert-group inventory periodic monthly
   subscribe-to-alert-group configuration periodic monthly
   subscribe-to-alert-group telemetry periodic daily
-Cryptochecksum:466a6012a2c7457191686dca9a321893
+Cryptochecksum:25a9fbfe82f6ffa455e8175211961e18
 : end
