@@ -8,5 +8,4 @@ This repository showcases my hands-on network engineering projects built and doc
 Each project includes:
 - Network topology
 - Configuration files
-- Verification and troubleshooting
 - Project documentation

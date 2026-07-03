@@ -1,8 +1,8 @@
 Building configuration...
 
-Current configuration : 3847 bytes
+Current configuration : 4111 bytes
 !
-! Last configuration change at 17:43:58 UTC Tue Jun 30 2026
+! Last configuration change at 14:43:45 UTC Fri Jul 3 2026
 !
 version 15.2
 service timestamps debug datetime msec
@@ -114,6 +114,20 @@ interface GigabitEthernet3/3
  switchport mode trunk
  negotiation auto
  channel-group 1 mode active
+!
+interface Vlan10
+ description #VLAN UserA#
+ ip address 192.168.10.2 255.255.255.0
+ shutdown
+!
+interface Vlan20
+ description #VLAN UserB#
+ ip address 192.168.20.2 255.255.255.0
+ shutdown
+!
+interface Vlan99
+ description #MGMT#
+ ip address 10.100.99.3 255.255.255.0
 !
 ip forward-protocol nd
 !
