@@ -3,7 +3,7 @@
 : 
 : Serial Number: 9AKEF4XG58P
 : Hardware:   ASAv, 2048 MB RAM, CPU Ryzen Zen 2 3900 MHz
-: Written by enable_15 at 17:24:39.446 UTC Tue Jun 30 2026
+: Written by enable_15 at 14:49:50.615 UTC Fri Jul 3 2026
 !
 ASA Version 9.24(1) 
 !
@@ -68,11 +68,12 @@ interface GigabitEthernet0/8
  ip address 172.16.10.254 255.255.255.0 
 !
 interface Management0/0
+ description #MGMT Interface# 
  no management-only
  shutdown
- no nameif
- no security-level
- no ip address
+ nameif MGMT
+ security-level 0
+ ip address 10.100.99.1 255.255.255.0 
 !
 banner login #Welcome to my Firewall friend
 ftp mode passive
@@ -81,6 +82,7 @@ pager lines 23
 mtu #DistributionA# 1500
 mtu #DistributionSWB# 1500
 mtu #DMZ# 1500
+mtu MGMT 1500
 no failover
 no failover wait-disable
 no monitor-interface service-module 
@@ -275,5 +277,5 @@ call-home
   subscribe-to-alert-group inventory periodic monthly
   subscribe-to-alert-group configuration periodic monthly
   subscribe-to-alert-group telemetry periodic daily
-Cryptochecksum:25a9fbfe82f6ffa455e8175211961e18
+Cryptochecksum:a90a4f3d7b6d824fdd845852eeef340b
 : end
