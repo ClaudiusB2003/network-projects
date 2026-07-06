@@ -13,9 +13,4 @@
 |---|---|---|
 | User | Admin | Distribution |
 
- ## Access Switches (AccessSWA, AccessSWB & AccessSWC)
-
- | role | username | password |
-|---|---|---|
-| User | Admin | Access |
 ---
