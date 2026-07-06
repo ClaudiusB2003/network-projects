@@ -1,8 +1,8 @@
 Building configuration...
 
-Current configuration : 4050 bytes
+Current configuration : 4194 bytes
 !
-! Last configuration change at 14:40:28 UTC Fri Jul 3 2026
+! Last configuration change at 18:14:28 UTC Sat Jul 4 2026
 !
 version 15.2
 service timestamps debug datetime msec
@@ -115,11 +115,17 @@ interface GigabitEthernet3/3
 interface Vlan10
  description #VLAN UserA#
  ip address 192.168.10.1 255.255.255.0
+ standby version 2
+ standby 0 ip 192.168.10.254
+ standby 1 priority 110
  shutdown
 !
 interface Vlan20
  description #VLAN UserB#
  ip address 192.168.20.1 255.255.255.0
+ standby version 2
+ standby 1 ip 192.168.20.254
+ standby 1 priority 110
  shutdown
 !
 interface Vlan99
