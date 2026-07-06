@@ -1,15 +1,15 @@
-# Netzwerk Credentials
+# Network credentials
  
 ## Firewall
  
-| Rolle | Benutzername | Passwort |
+| role | username | password |
 |---|---|---|
 | Enable | – | Firewall#ASA |
 | User | Admin | AdminFirewall |
  
 ## Distribution Switches (DistributionSWA & DistributionSWB)
  
-| Rolle | Benutzername | Passwort |
+| role | username | password |
 |---|---|---|
 | User | Admin | Distribution |
  
