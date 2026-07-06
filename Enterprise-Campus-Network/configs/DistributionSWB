@@ -1,8 +1,8 @@
 Building configuration...
 
-Current configuration : 4207 bytes
+Current configuration : 4298 bytes
 !
-! Last configuration change at 18:16:02 UTC Sat Jul 4 2026
+! Last configuration change at 15:59:48 UTC Sun Jul 5 2026 by Admin
 !
 version 15.2
 service timestamps debug datetime msec
@@ -18,7 +18,7 @@ boot-end-marker
 !
 no logging console
 !
-username Admin secret 5 $1$LnzA$zABiSuNSjLYlIS/GgByyL/
+username Admin privilege 15 secret 5 $1$Twgr$JB4UEjDe68.qRkrAi11nQ/
 no aaa new-model
 !
 !
@@ -33,8 +33,10 @@ no ipv6 cef
 !
 !
 !
-spanning-tree mode pvst
+spanning-tree mode rapid-pvst
 spanning-tree extend system-id
+spanning-tree vlan 1,10 priority 28672
+spanning-tree vlan 20,99 priority 24576
 !
 !
 ! 
@@ -126,7 +128,6 @@ interface Vlan20
  description #VLAN UserB#
  ip address 192.168.20.2 255.255.255.0
  standby version 2
- standby 1 ip 192.168.20.254
  shutdown
 !
 interface Vlan99
@@ -178,6 +179,7 @@ By using the software, you agree to abide by the terms and conditions of the Cis
 !
 line con 0
  exec-timeout 0 0
+ login local
 line aux 0
 line vty 0 4
  exec-timeout 0 0
