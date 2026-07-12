@@ -1,8 +1,8 @@
 Building configuration...
 
-Current configuration : 4186 bytes
+Current configuration : 4380 bytes
 !
-! Last configuration change at 15:57:14 UTC Sun Jul 5 2026 by Admin
+! Last configuration change at 15:52:46 UTC Sun Jul 12 2026 by Admin
 !
 version 15.2
 service timestamps debug datetime msec
@@ -35,8 +35,8 @@ no ipv6 cef
 !
 spanning-tree mode rapid-pvst
 spanning-tree extend system-id
-spanning-tree vlan 1,10 priority 24576
-spanning-tree vlan 99 priority 28672
+spanning-tree vlan 1,10,30 priority 24576
+spanning-tree vlan 20,99 priority 28672
 !
 !
 ! 
@@ -114,15 +114,25 @@ interface GigabitEthernet3/3
  negotiation auto
  channel-group 1 mode active
 !
+interface Vlan1
+ no ip address
+ shutdown
+!
 interface Vlan10
  description #VLAN UserA#
  ip address 192.168.10.1 255.255.255.0
  standby version 2
+ standby 10 ip 192.168.10.254
+ standby 10 priority 110
+ standby 10 preempt
  shutdown
 !
 interface Vlan20
  description #VLAN UserB#
  ip address 192.168.20.1 255.255.255.0
+ standby version 2
+ standby 20 ip 192.168.20.254
+ standby 20 preempt
  shutdown
 !
 interface Vlan99
