@@ -2,7 +2,8 @@
 
 > 🚧 **Work in Progress**
 
-<img width="1050" height="756" alt="image" src="https://github.com/user-attachments/assets/e0fe6ae0-c370-4343-a0b9-7185395b9e80" />
+<img width="966" height="733" alt="image" src="https://github.com/user-attachments/assets/012d4ef1-285d-493e-b42d-040c7983fb34" />
+
 
 
 ## What is this about?
