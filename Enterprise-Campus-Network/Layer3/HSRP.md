@@ -73,8 +73,7 @@ interface Vlan99
 
 ```
 DistributionSWA#show standby brief
-                     P indicates configured to preempt.
-                     |
+
 Interface   Grp  Pri P State   Active          Standby         Virtual IP
 Vl10        10   110 P Active  local           192.168.10.2    192.168.10.254
 Vl20        20   100 P Standby 192.168.20.2    local           192.168.20.254
@@ -82,8 +81,7 @@ Vl30        30   110 P Active  local           192.168.30.2    192.168.30.254
 Vl99        99   100 P Standby 10.100.99.3     local           10.100.99.254
 
 DistributionSWB#show standby brief
-                     P indicates configured to preempt.
-                     |
+
 Interface   Grp  Pri P State   Active          Standby         Virtual IP
 Vl10        10   100 P Standby 192.168.10.1    local           192.168.10.254
 Vl20        20   110 P Active  local           192.168.20.1    192.168.20.254
