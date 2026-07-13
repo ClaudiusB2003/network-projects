@@ -23,6 +23,7 @@ A dedicated Management VLAN is used to administer all network infrastructure dev
 | AccessSWA | 10.100.99.4 | SVI (VLAN 99) |
 | AccessSWB | 10.100.99.5 | SVI (VLAN 99) |
 | AccessSWC | 10.100.99.6 | SVI (VLAN 99) |
+| DHCP-SRV  | 10.100.99.7 | SVI (VLAN 99) |
  
 ## Design Notes
  
