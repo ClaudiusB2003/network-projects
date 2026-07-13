@@ -23,6 +23,22 @@ ip dhcp pool UserB
 |---|---|---|---|---|
 | UserA | 192.168.10.0/24 | 192.168.10.254 | lan.local | 192.168.10.1 – 192.168.10.10 |
 | UserB | 192.168.20.0/24 | 192.168.20.254 | lan.local | 192.168.20.1 – 192.168.20.10 |
+
+## DHCP Bindings
+
+```
+DHCP-Server#sh ip dhcp binding 
+Bindings from all pools not associated with VRF:
+IP address          Client-ID/              Lease expiration        Type
+                    Hardware address/
+                    User name
+192.168.10.11       0152.5400.30c0.87       Jul 14 2026 01:54 PM    Automatic
+192.168.10.12       0152.5400.01f7.e8       Jul 14 2026 01:53 PM    Automatic
+192.168.20.11       0152.5400.6f63.6d       Jul 14 2026 01:03 PM    Automatic
+192.168.20.12       0152.5400.11f1.c9       Jul 14 2026 01:04 PM    Automatic
+192.168.20.13       0152.5400.287e.0e       Jul 14 2026 01:10 PM    Automatic
+DHCP-Server#
+ ```
  
 ## Notes
  
