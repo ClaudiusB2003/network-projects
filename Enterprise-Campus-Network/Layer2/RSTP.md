@@ -26,7 +26,7 @@ gateway.
 > `Po1` trunk between the two distribution switches, so each switch runs its own
 > independent VLAN 1 STP domain and is correctly root within it.
 
-## 3. Distribution Layer Verification
+## Distribution Layer Verification
 
 `DistributionSWA#show spanning-tree` / `DistributionSWB#show spanning-tree` confirm the design:
 
@@ -38,7 +38,7 @@ gateway.
   `Desg FWD` — expected, since distribution switches are the root (or forward
   toward it) on every access-facing link.
 
-## 4. Access Layer Verification
+## Access Layer Verification
 
 Because each access switch only trunks its own user VLAN + VLAN 99, each one
 only runs 2–3 STP instances instead of 5 — a direct result of the trunk pruning
