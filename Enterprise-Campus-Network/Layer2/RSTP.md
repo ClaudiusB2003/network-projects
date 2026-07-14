@@ -1,9 +1,5 @@
 # Spanning Tree Design & Verification
 
-This lab documents a small two-tier campus network (Distribution + Access) built to
-practice **redundant Layer 2 design with per-VLAN STP load balancing** and
-**trunk hardening (VLAN pruning) as a security best practice.**
-
 ## Design Goal: Per-VLAN Root Placement (STP Load Balancing)
 
 Instead of making one distribution switch the STP root for *every* VLAN — which
