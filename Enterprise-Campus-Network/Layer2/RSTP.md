@@ -42,9 +42,6 @@ gateway.
   `Desg FWD` — expected, since distribution switches are the root (or forward
   toward it) on every access-facing link.
 
-Full raw output: [`distribution-swa-stp.txt`](./distribution-swa-stp.txt),
-[`distribution-swb-stp.txt`](./distribution-swb-stp.txt)
-
 ## 4. Access Layer Verification
 
 Because each access switch only trunks its own user VLAN + VLAN 99, each one
