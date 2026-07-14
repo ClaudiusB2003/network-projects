@@ -62,10 +62,6 @@ described below.
   worth revisiting if the goal is to balance load on every access switch
   individually rather than only in aggregate.
 
-Full raw output: [`access-swa-stp.txt`](./access-swa-stp.txt),
-[`access-swb-stp.txt`](./access-swb-stp.txt),
-[`access-swc-stp.txt`](./access-swc-stp.txt)
-
 ## Security Hardening – Trunk Pruning
 
 On every access-to-distribution uplink, only the following VLANs are permitted
