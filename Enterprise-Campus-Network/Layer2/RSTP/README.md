@@ -15,7 +15,7 @@ traffic, just for different VLANs**:
 | 30   | DistributionSWA | 24606 |
 | 99   | DistributionSWB | 24675 |
 
-This is conceptually the same idea behind pairing **HSRP/GLBP active gateways**
+This is conceptually the same idea behind pairing **HSRP active gateways**
 with **STP root bridges** per VLAN: whichever distribution switch is the
 active Layer 3 gateway for a VLAN is also made the STP root for that VLAN, so
 traffic doesn't take an unnecessary extra hop across `Po1` before reaching its
