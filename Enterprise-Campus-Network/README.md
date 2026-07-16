@@ -4,14 +4,34 @@
 
 <img width="1015" height="714" alt="image" src="https://github.com/user-attachments/assets/f6aab16b-bab4-44cf-baf8-764bb222cfd4" />
 
+# Lab 1 – Enterprise Campus & Security
+
+## Overview
+
+This lab builds a realistic enterprise campus network featuring network segmentation, gateway redundancy, and perimeter security. It bridges CCNA-level fundamentals (VLANs, trunking, STP) with Security Basics (Firewalls, Policys etc.).
+
+## Topology
+
+- 2x Distribution Switches
+- 3x Access Switches
+- 1x Firewall 
+- 1x Edge Router (internet connectivity)
+
+## Technologies Used
+
+- VLANs & 802.1Q Trunking
+- Portchannel
+- Switched Virtual Interfaces (SVIs)
+- HSRP (First Hop Redundancy)
+- Spanning Tree Root Bridge Design
+- Access Control Lists (ACLs)
+- NAT (Network Address Translation)
+- Zone-Based Firewall
+
+## Documentation
 
 
-
-## What is this about?
-In this lab, I'm building a realistic enterprise campus network with segmentation and redundancy. The goal is to cleanly separate different user and server VLANs, ensure internet access for all users, and secure network traffic through a firewall with a default-deny policy. Additionally, HSRP is used to implement redundant gateway connectivity.
-
-Topics covered: VLANs, trunks, SVIs, HSRP, STP root design, ACLs, NAT, and zone-based firewall.
 
 ## Author
-**Claudius B.**
-Trainee IT Specialist for System Integration
+
+Claudius B. 
