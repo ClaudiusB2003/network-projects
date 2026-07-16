@@ -9,6 +9,7 @@ Overview of the VLANs configured in the network, their assignment, and associate
 | 10      | UserA   | 192.168.10.0/24  | 192.168.10.1   | 254          | Network for user group A      |
 | 20      | UserB   | 192.168.20.0/24  | 192.168.20.1   | 254          | Network for user group B      |
 | 30      | Server  | 192.168.30.0/24  | 192.168.30.1   | 254          | Network for server infrastructure |
+| 99      | MGMT    | 10.100.99.0/24   | 10.100.99.1   | 254          | Network for Management |
  
 ## Details
  
@@ -32,6 +33,13 @@ Overview of the VLANs configured in the network, their assignment, and associate
 - **Address range:** 192.168.30.1 – 192.168.30.254
 - **Broadcast:** 192.168.30.255
 - **Purpose:** Server infrastructure
+
+### VLAN 99 – MGMT
+- **Subnet:** 10.100.99.0/24
+- **Gateway:** 10.100.99.1
+- **Address range:** 10.100.99.1 – 10.100.99.254
+- **Broadcast:** 10.100.99.255
+- **Purpose:** Management
   
 ## Notes
 - Inter-VLAN routing is handled by the Layer 3 switch/router.
