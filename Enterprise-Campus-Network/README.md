@@ -28,10 +28,6 @@ This lab builds a realistic enterprise campus network featuring network segmenta
 - NAT (Network Address Translation)
 - Zone-Based Firewall
 
-## Documentation
-
-
-
 ## Author
 
 Claudius B. 
