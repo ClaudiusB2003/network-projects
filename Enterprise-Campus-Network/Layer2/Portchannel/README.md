@@ -1,4 +1,4 @@
-# LACP EtherChannel Configuration Documentation
+# LACP EtherChannel Configuration 
 
 ## Overview
 
@@ -33,76 +33,6 @@ This document describes the configuration and verification of a Layer 2 LACP Eth
 ```
 
 ---
-
-# Configuration
-
-## DistributionSWA
-
-### Port-Channel Interface
-
-```cisco
-interface Port-channel1
- description #LACP-Portchannel#
- switchport trunk encapsulation dot1q
- switchport trunk allowed vlan 10,20,30,99
-```
-
-### Member Interfaces
-
-```cisco
-interface GigabitEthernet3/2
- switchport trunk encapsulation dot1q
- switchport trunk allowed vlan 10,20,30,99
- negotiation auto
- channel-group 1 mode active
-
-interface GigabitEthernet3/3
- switchport trunk encapsulation dot1q
- switchport trunk allowed vlan 10,20,30,99
- negotiation auto
- channel-group 1 mode active
-```
-
----
-
-## DistributionSWB
-
-### Port-Channel Interface
-
-```cisco
-interface Port-channel1
- description #LACP-Portchannel#
- switchport trunk encapsulation dot1q
- switchport trunk allowed vlan 10,20,30,99
-```
-
-### Member Interfaces
-
-```cisco
-interface GigabitEthernet3/2
- switchport trunk encapsulation dot1q
- switchport trunk allowed vlan 10,20,30,99
- switchport mode trunk
- negotiation auto
- channel-group 1 mode active
-
-interface GigabitEthernet3/3
- switchport trunk encapsulation dot1q
- switchport trunk allowed vlan 10,20,30,99
- switchport mode trunk
- negotiation auto
- channel-group 1 mode active
-```
-
----
-
-# Verification
-
-The EtherChannel status can be verified using:
-
-```cisco
-show etherchannel port-channel
-```
 
 ## DistributionSWA
 
@@ -184,28 +114,3 @@ The verification output confirms that:
 - The Port-Channel is operational (**Ag-Inuse**).
 - Traffic is forwarded across the aggregated links.
 - VLANs **10, 20, 30, and 99** are permitted on the trunk.
-
----
-
-# Verification Commands
-
-Useful commands for validating the EtherChannel configuration:
-
-```cisco
-show etherchannel summary
-show etherchannel port
-show etherchannel port-channel
-show lacp neighbor
-show interfaces port-channel1
-show interfaces trunk
-show running-config interface port-channel1
-```
-
----
-
-# Notes
-
-- LACP provides automatic negotiation and link failure detection.
-- All member interfaces must have identical Layer 2 settings (speed, duplex, trunk mode, allowed VLANs, and encapsulation).
-- Configuration changes should be applied to the Port-Channel interface whenever possible, rather than individual member interfaces.
-- The Port-Channel remains operational as long as at least one member interface remains active.
