@@ -1,59 +1,211 @@
-# LACP Port-Channel Configuration (Distribution Switches)
-
-This document describes the configuration of a Layer 2 LACP Port-Channel between two distribution switches using EtherChannel (Port-Channel 1).
-
----
+# LACP EtherChannel Configuration Documentation
 
 ## Overview
 
-- **Protocol:** LACP (Link Aggregation Control Protocol)
-- **Port-Channel ID:** 1
-- **Mode:** Active (LACP)
-- **Trunk VLANs:** 10, 20, 30, 99
-- **Encapsulation:** IEEE 802.1Q
+This document describes the configuration and verification of a Layer 2 LACP EtherChannel (Port-Channel 1) between **Distribution Switch A (DistributionSWA)** and **Distribution Switch B (DistributionSWB)**.
+
+### Configuration Summary
+
+| Parameter | Value |
+|-----------|-------|
+| EtherChannel Protocol | LACP (IEEE 802.3ad / IEEE 802.1AX) |
+| Port-Channel ID | 1 |
+| Mode | Active |
+| Port-Channel Type | Layer 2 Trunk |
+| Member Interfaces | GigabitEthernet3/2, GigabitEthernet3/3 |
+| Allowed VLANs | 10, 20, 30, 99 |
+| Trunk Encapsulation | IEEE 802.1Q |
 
 ---
-## Port-Channel Configuration
 
-### Distribution Switch A (DistributionSWA)
+# Topology
 
-```bash
+```
+                 LACP EtherChannel (Po1)
+      =========================================
+
+      DistributionSWA                DistributionSWB
+      ----------------                ----------------
+         Gi3/2  =====================  Gi3/2
+         Gi3/3  =====================  Gi3/3
+
+                 Port-Channel1 (LACP)
+```
+
+---
+
+# Configuration
+
+## DistributionSWA
+
+### Port-Channel Interface
+
+```cisco
 interface Port-channel1
  description #LACP-Portchannel#
- switchport trunk allowed vlan 10,20,30,99
  switchport trunk encapsulation dot1q
+ switchport trunk allowed vlan 10,20,30,99
+```
 
- interface GigabitEthernet3/2
- switchport trunk allowed vlan 10,20,30,99
+### Member Interfaces
+
+```cisco
+interface GigabitEthernet3/2
  switchport trunk encapsulation dot1q
+ switchport trunk allowed vlan 10,20,30,99
  negotiation auto
  channel-group 1 mode active
 
 interface GigabitEthernet3/3
- switchport trunk allowed vlan 10,20,30,99
  switchport trunk encapsulation dot1q
+ switchport trunk allowed vlan 10,20,30,99
  negotiation auto
  channel-group 1 mode active
 ```
- 
-### Distribution Switch B (DistributionSWB)
-```bash
+
+---
+
+## DistributionSWB
+
+### Port-Channel Interface
+
+```cisco
 interface Port-channel1
  description #LACP-Portchannel#
- switchport trunk allowed vlan 10,20,30,99
  switchport trunk encapsulation dot1q
+ switchport trunk allowed vlan 10,20,30,99
+```
 
- interface GigabitEthernet3/2
- switchport trunk allowed vlan 10,20,30,99
+### Member Interfaces
+
+```cisco
+interface GigabitEthernet3/2
  switchport trunk encapsulation dot1q
+ switchport trunk allowed vlan 10,20,30,99
  switchport mode trunk
  negotiation auto
  channel-group 1 mode active
 
 interface GigabitEthernet3/3
- switchport trunk allowed vlan 10,20,30,99
  switchport trunk encapsulation dot1q
+ switchport trunk allowed vlan 10,20,30,99
  switchport mode trunk
  negotiation auto
  channel-group 1 mode active
- ```
+```
+
+---
+
+# Verification
+
+The EtherChannel status can be verified using:
+
+```cisco
+show etherchannel port-channel
+```
+
+## DistributionSWA
+
+### Port-Channel Status
+
+| Parameter | Value |
+|----------|-------|
+| Group | 1 |
+| Port-Channel | Po1 |
+| Protocol | LACP |
+| State | Port-channel Ag-Inuse |
+| Number of Member Ports | 2 |
+
+### Member Interfaces
+
+| Interface | Status |
+|----------|--------|
+| GigabitEthernet3/2 | Active |
+| GigabitEthernet3/3 | Active |
+
+Example output:
+
+```text
+Port-channel: Po1 (Primary Aggregator)
+
+Port state : Port-channel Ag-Inuse
+Protocol   : LACP
+
+Ports in the Port-channel
+
+Gi3/2  Active
+Gi3/3  Active
+```
+
+---
+
+## DistributionSWB
+
+### Port-Channel Status
+
+| Parameter | Value |
+|----------|-------|
+| Group | 1 |
+| Port-Channel | Po1 |
+| Protocol | LACP |
+| State | Port-channel Ag-Inuse |
+| Number of Member Ports | 2 |
+
+### Member Interfaces
+
+| Interface | Status |
+|----------|--------|
+| GigabitEthernet3/2 | Active |
+| GigabitEthernet3/3 | Active |
+
+Example output:
+
+```text
+Port-channel: Po1 (Primary Aggregator)
+
+Port state : Port-channel Ag-Inuse
+Protocol   : LACP
+
+Ports in the Port-channel
+
+Gi3/2  Active
+Gi3/3  Active
+```
+
+---
+
+# Operational Status
+
+The verification output confirms that:
+
+- LACP negotiation completed successfully.
+- Both physical interfaces are bundled into **Port-Channel 1**.
+- Both links are in the **Active** state.
+- The Port-Channel is operational (**Ag-Inuse**).
+- Traffic is forwarded across the aggregated links.
+- VLANs **10, 20, 30, and 99** are permitted on the trunk.
+
+---
+
+# Verification Commands
+
+Useful commands for validating the EtherChannel configuration:
+
+```cisco
+show etherchannel summary
+show etherchannel port
+show etherchannel port-channel
+show lacp neighbor
+show interfaces port-channel1
+show interfaces trunk
+show running-config interface port-channel1
+```
+
+---
+
+# Notes
+
+- LACP provides automatic negotiation and link failure detection.
+- All member interfaces must have identical Layer 2 settings (speed, duplex, trunk mode, allowed VLANs, and encapsulation).
+- Configuration changes should be applied to the Port-Channel interface whenever possible, rather than individual member interfaces.
+- The Port-Channel remains operational as long as at least one member interface remains active.
