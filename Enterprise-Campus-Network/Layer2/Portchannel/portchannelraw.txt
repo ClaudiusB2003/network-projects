@@ -12,12 +12,14 @@ interface Port-channel1
 interface GigabitEthernet3/2
  switchport trunk encapsulation dot1q
  switchport trunk allowed vlan 10,20,30,99
+ switchport mode trunk
  negotiation auto
  channel-group 1 mode active
 
 interface GigabitEthernet3/3
  switchport trunk encapsulation dot1q
  switchport trunk allowed vlan 10,20,30,99
+ switchport mode trunk
  negotiation auto
  channel-group 1 mode active
 
