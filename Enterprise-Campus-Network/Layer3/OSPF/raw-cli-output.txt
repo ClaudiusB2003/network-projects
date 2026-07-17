@@ -1,0 +1,329 @@
+================================================================================
+OSPF LAB - RAW CLI OUTPUTS
+================================================================================
+Topology: OSPF_Topology.png
+Area: OSPF Area 0 (single-area design)
+Capture date: see uptime values in the individual outputs below
+================================================================================
+
+
+--------------------------------------------------------------------------------
+DEVICE: Edge_Router (ASBR) - RID 99.99.99.99
+--------------------------------------------------------------------------------
+
+Edge_Router#sh ip protocols
+*** IP Routing is NSF aware ***
+Routing Protocol is "application"
+  Sending updates every 0 seconds
+  Invalid after 0 seconds, hold down 0, flushed after 0
+  Outgoing update filter list for all interfaces is not set
+  Incoming update filter list for all interfaces is not set
+  Maximum path: 32
+  Routing for Networks:
+  Routing Information Sources:
+    Gateway         Distance      Last Update
+  Distance: (default is 4)
+Routing Protocol is "ospf 1"
+  Outgoing update filter list for all interfaces is not set
+  Incoming update filter list for all interfaces is not set
+  Router ID 99.99.99.99
+  It is an autonomous system boundary router
+ Redistributing External Routes from,
+  Number of areas in this router is 1. 1 normal 0 stub 0 nssa
+  Maximum path: 4
+  Routing for Networks:
+    10.0.0.0 0.0.0.3 area 0
+    99.99.99.99 0.0.0.0 area 0
+  Routing Information Sources:
+    Gateway         Distance      Last Update
+    1.1.1.1              110      00:01:17
+    2.2.2.2              110      00:01:17
+    3.3.3.3              110      00:01:05
+  Distance: (default is 110)
+Edge_Router#
+
+
+Edge_Router#sh ip route
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       a - application route
+       + - replicated route, % - next hop override, p - overrides from PfR
+Gateway of last resort is 0.0.0.0 to network 0.0.0.0
+S*    0.0.0.0/0 is directly connected, GigabitEthernet0/15
+      2.0.0.0/32 is subnetted, 1 subnets
+O        2.2.2.2 [110/12] via 10.0.0.1, 00:01:48, GigabitEthernet0/0
+      3.0.0.0/32 is subnetted, 1 subnets
+O        3.3.3.3 [110/12] via 10.0.0.1, 00:01:48, GigabitEthernet0/0
+      10.0.0.0/8 is variably subnetted, 5 subnets, 3 masks
+C        10.0.0.0/30 is directly connected, GigabitEthernet0/0
+L        10.0.0.2/32 is directly connected, GigabitEthernet0/0
+O        10.100.1.0/30 [110/11] via 10.0.0.1, 00:01:48, GigabitEthernet0/0
+O        10.100.99.0/24 [110/12] via 10.0.0.1, 00:01:48, GigabitEthernet0/0
+O        10.200.2.0/30 [110/11] via 10.0.0.1, 00:01:48, GigabitEthernet0/0
+      99.0.0.0/32 is subnetted, 1 subnets
+C        99.99.99.99 is directly connected, Loopback0
+O     192.168.10.0/24 [110/12] via 10.0.0.1, 00:01:37, GigabitEthernet0/0
+O     192.168.20.0/24 [110/12] via 10.0.0.1, 00:01:48, GigabitEthernet0/0
+O     192.168.30.0/24 [110/12] via 10.0.0.1, 00:01:37, GigabitEthernet0/0
+      192.168.178.0/24 is variably subnetted, 2 subnets, 2 masks
+C        192.168.178.0/24 is directly connected, GigabitEthernet0/15
+L        192.168.178.49/32 is directly connected, GigabitEthernet0/15
+Edge_Router#
+
+
+--------------------------------------------------------------------------------
+DEVICE: Firewall - RID 1.1.1.1
+--------------------------------------------------------------------------------
+
+Firewall# sh route
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2, V - VPN
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, + - replicated route
+       SI - Static InterVRF, BI - BGP InterVRF
+Gateway of last resort is 10.0.0.2 to network 0.0.0.0
+O*E2     0.0.0.0 0.0.0.0 [110/1] via 10.0.0.2, 00:02:39, #Outside#
+O        2.2.2.2 255.255.255.255
+           [110/11] via 10.100.1.2, 00:03:08, #DistributionSWA#
+O        3.3.3.3 255.255.255.255
+           [110/11] via 10.200.2.2, 00:03:18, #DistributionSWB#
+C        10.0.0.0 255.255.255.252 is directly connected, #Outside#
+L        10.0.0.1 255.255.255.255 is directly connected, #Outside#
+C        10.100.1.0 255.255.255.252 is directly connected, #DistributionSWA#
+L        10.100.1.1 255.255.255.255 is directly connected, #DistributionSWA#
+O        10.100.99.0 255.255.255.0
+           [110/11] via 10.200.2.2, 00:03:18, #DistributionSWB#
+C        10.200.2.0 255.255.255.252 is directly connected, #DistributionSWB#
+L        10.200.2.1 255.255.255.255 is directly connected, #DistributionSWB#
+O        99.99.99.99 255.255.255.255
+           [110/11] via 10.0.0.2, 00:02:40, #Outside#
+C        172.16.10.0 255.255.255.0 is directly connected, #DMZ#
+L        172.16.10.254 255.255.255.255 is directly connected, #DMZ#
+O        192.168.10.0 255.255.255.0
+           [110/11] via 10.200.2.2, 00:03:18, #DistributionSWB#
+O        192.168.20.0 255.255.255.0
+           [110/11] via 10.200.2.2, 00:03:18, #DistributionSWB#
+O        192.168.30.0 255.255.255.0
+           [110/11] via 10.200.2.2, 00:03:18, #DistributionSWB#
+Firewall#
+
+
+--------------------------------------------------------------------------------
+DEVICE: DistributionSWA - RID 2.2.2.2
+--------------------------------------------------------------------------------
+
+DistributionSWA# sh ip protocols
+*** IP Routing is NSF aware ***
+Routing Protocol is "application"
+  Sending updates every 0 seconds
+  Invalid after 0 seconds, hold down 0, flushed after 0
+  Outgoing update filter list for all interfaces is not set
+  Incoming update filter list for all interfaces is not set
+  Maximum path: 32
+  Routing for Networks:
+  Routing Information Sources:
+    Gateway         Distance      Last Update
+  Distance: (default is 4)
+Routing Protocol is "ospf 1"
+  Outgoing update filter list for all interfaces is not set
+  Incoming update filter list for all interfaces is not set
+  Router ID 2.2.2.2
+  Number of areas in this router is 1. 1 normal 0 stub 0 nssa
+  Maximum path: 4
+  Routing for Networks:
+    2.2.2.2 0.0.0.0 area 0
+    10.100.1.0 0.0.0.3 area 0
+    10.100.99.0 0.0.0.255 area 0
+    192.168.10.0 0.0.0.255 area 0
+    192.168.20.0 0.0.0.255 area 0
+    192.168.30.0 0.0.0.255 area 0
+  Routing Information Sources:
+    Gateway         Distance      Last Update
+    99.99.99.99          110      00:04:09
+    1.1.1.1              110      00:04:38
+    3.3.3.3              110      00:03:59
+  Distance: (default is 110)
+DistributionSWA#
+
+
+DistributionSWA#sh ip route
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       a - application route
+       + - replicated route, % - next hop override, p - overrides from PfR
+Gateway of last resort is 10.100.1.1 to network 0.0.0.0
+O*E2  0.0.0.0/0 [110/1] via 10.100.1.1, 00:03:49, GigabitEthernet1/1
+      2.0.0.0/32 is subnetted, 1 subnets
+C        2.2.2.2 is directly connected, Loopback0
+      3.0.0.0/32 is subnetted, 1 subnets
+O        3.3.3.3 [110/2] via 192.168.30.2, 00:03:39, Vlan30
+                 [110/2] via 192.168.20.2, 00:03:49, Vlan20
+                 [110/2] via 192.168.10.2, 00:03:39, Vlan10
+                 [110/2] via 10.100.99.3, 00:03:49, Vlan99
+      10.0.0.0/8 is variably subnetted, 6 subnets, 3 masks
+O        10.0.0.0/30 [110/11] via 10.100.1.1, 00:04:18, GigabitEthernet1/1
+C        10.100.1.0/30 is directly connected, GigabitEthernet1/1
+L        10.100.1.2/32 is directly connected, GigabitEthernet1/1
+C        10.100.99.0/24 is directly connected, Vlan99
+L        10.100.99.2/32 is directly connected, Vlan99
+O        10.200.2.0/30 [110/2] via 192.168.30.2, 00:03:39, Vlan30
+                       [110/2] via 192.168.20.2, 00:03:49, Vlan20
+                       [110/2] via 192.168.10.2, 00:03:39, Vlan10
+                       [110/2] via 10.100.99.3, 00:03:49, Vlan99
+      99.0.0.0/32 is subnetted, 1 subnets
+O        99.99.99.99 [110/12] via 10.100.1.1, 00:03:49, GigabitEthernet1/1
+      192.168.10.0/24 is variably subnetted, 2 subnets, 2 masks
+C        192.168.10.0/24 is directly connected, Vlan10
+L        192.168.10.1/32 is directly connected, Vlan10
+      192.168.20.0/24 is variably subnetted, 2 subnets, 2 masks
+C        192.168.20.0/24 is directly connected, Vlan20
+L        192.168.20.1/32 is directly connected, Vlan20
+      192.168.30.0/24 is variably subnetted, 2 subnets, 2 masks
+C        192.168.30.0/24 is directly connected, Vlan30
+L        192.168.30.1/32 is directly connected, Vlan30
+DistributionSWA#
+
+
+--------------------------------------------------------------------------------
+DEVICE: DistributionSWB - RID 3.3.3.3
+--------------------------------------------------------------------------------
+
+DistributionSWB#     sh ip protocols
+*** IP Routing is NSF aware ***
+Routing Protocol is "application"
+  Sending updates every 0 seconds
+  Invalid after 0 seconds, hold down 0, flushed after 0
+  Outgoing update filter list for all interfaces is not set
+  Incoming update filter list for all interfaces is not set
+  Maximum path: 32
+  Routing for Networks:
+  Routing Information Sources:
+    Gateway         Distance      Last Update
+  Distance: (default is 4)
+Routing Protocol is "ospf 1"
+  Outgoing update filter list for all interfaces is not set
+  Incoming update filter list for all interfaces is not set
+  Router ID 3.3.3.3
+  Number of areas in this router is 1. 1 normal 0 stub 0 nssa
+  Maximum path: 4
+  Routing for Networks:
+    3.3.3.3 0.0.0.0 area 0
+    10.100.99.0 0.0.0.255 area 0
+    10.200.2.0 0.0.0.3 area 0
+    192.168.10.0 0.0.0.255 area 0
+    192.168.20.0 0.0.0.255 area 0
+    192.168.30.0 0.0.0.255 area 0
+  Routing Information Sources:
+    Gateway         Distance      Last Update
+    99.99.99.99          110      00:05:20
+    2.2.2.2              110      00:05:10
+    1.1.1.1              110      00:05:55
+  Distance: (default is 110)
+DistributionSWB#
+
+
+DistributionSWB#sh ip route
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       a - application route
+       + - replicated route, % - next hop override, p - overrides from PfR
+Gateway of last resort is 10.200.2.1 to network 0.0.0.0
+O*E2  0.0.0.0/0 [110/1] via 10.200.2.1, 00:04:56, GigabitEthernet1/2
+      2.0.0.0/32 is subnetted, 1 subnets
+O        2.2.2.2 [110/2] via 192.168.30.1, 00:04:46, Vlan30
+                 [110/2] via 192.168.20.1, 00:04:56, Vlan20
+                 [110/2] via 192.168.10.1, 00:04:46, Vlan10
+                 [110/2] via 10.100.99.2, 00:04:56, Vlan99
+      3.0.0.0/32 is subnetted, 1 subnets
+C        3.3.3.3 is directly connected, Loopback0
+      10.0.0.0/8 is variably subnetted, 6 subnets, 3 masks
+O        10.0.0.0/30 [110/11] via 10.200.2.1, 00:05:31, GigabitEthernet1/2
+O        10.100.1.0/30 [110/2] via 192.168.30.1, 00:04:46, Vlan30
+                       [110/2] via 192.168.20.1, 00:04:56, Vlan20
+                       [110/2] via 192.168.10.1, 00:04:46, Vlan10
+                       [110/2] via 10.100.99.2, 00:04:56, Vlan99
+C        10.100.99.0/24 is directly connected, Vlan99
+L        10.100.99.3/32 is directly connected, Vlan99
+C        10.200.2.0/30 is directly connected, GigabitEthernet1/2
+L        10.200.2.2/32 is directly connected, GigabitEthernet1/2
+      99.0.0.0/32 is subnetted, 1 subnets
+O        99.99.99.99 [110/12] via 10.200.2.1, 00:04:56, GigabitEthernet1/2
+      192.168.10.0/24 is variably subnetted, 2 subnets, 2 masks
+C        192.168.10.0/24 is directly connected, Vlan10
+L        192.168.10.2/32 is directly connected, Vlan10
+      192.168.20.0/24 is variably subnetted, 2 subnets, 2 masks
+C        192.168.20.0/24 is directly connected, Vlan20
+L        192.168.20.2/32 is directly connected, Vlan20
+      192.168.30.0/24 is variably subnetted, 2 subnets, 2 masks
+C        192.168.30.0/24 is directly connected, Vlan30
+L        192.168.30.2/32 is directly connected, Vlan30
+DistributionSWB#
+
+
+--------------------------------------------------------------------------------
+DEVICE: DistributionSWB - "sh ip route" (2nd capture, later uptime)
+--------------------------------------------------------------------------------
+
+DistributionSWB#sh ip route
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       a - application route
+       + - replicated route, % - next hop override, p - overrides from PfR
+Gateway of last resort is 10.200.2.1 to network 0.0.0.0
+O*E2  0.0.0.0/0 [110/1] via 10.200.2.1, 00:06:44, GigabitEthernet1/2
+      2.0.0.0/32 is subnetted, 1 subnets
+O        2.2.2.2 [110/2] via 192.168.30.1, 00:06:34, Vlan30
+                 [110/2] via 192.168.20.1, 00:06:44, Vlan20
+                 [110/2] via 192.168.10.1, 00:06:34, Vlan10
+                 [110/2] via 10.100.99.2, 00:06:44, Vlan99
+      3.0.0.0/32 is subnetted, 1 subnets
+C        3.3.3.3 is directly connected, Loopback0
+      10.0.0.0/8 is variably subnetted, 6 subnets, 3 masks
+O        10.0.0.0/30 [110/11] via 10.200.2.1, 00:07:19, GigabitEthernet1/2
+O        10.100.1.0/30 [110/2] via 192.168.30.1, 00:06:34, Vlan30
+                       [110/2] via 192.168.20.1, 00:06:44, Vlan20
+                       [110/2] via 192.168.10.1, 00:06:34, Vlan10
+                       [110/2] via 10.100.99.2, 00:06:44, Vlan99
+C        10.100.99.0/24 is directly connected, Vlan99
+L        10.100.99.3/32 is directly connected, Vlan99
+C        10.200.2.0/30 is directly connected, GigabitEthernet1/2
+L        10.200.2.2/32 is directly connected, GigabitEthernet1/2
+      99.0.0.0/32 is subnetted, 1 subnets
+O        99.99.99.99 [110/12] via 10.200.2.1, 00:06:44, GigabitEthernet1/2
+      192.168.10.0/24 is variably subnetted, 2 subnets, 2 masks
+C        192.168.10.0/24 is directly connected, Vlan10
+L        192.168.10.2/32 is directly connected, Vlan10
+      192.168.20.0/24 is variably subnetted, 2 subnets, 2 masks
+C        192.168.20.0/24 is directly connected, Vlan20
+L        192.168.20.2/32 is directly connected, Vlan20
+      192.168.30.0/24 is variably subnetted, 2 subnets, 2 masks
+C        192.168.30.0/24 is directly connected, Vlan30
+L        192.168.30.2/32 is directly connected, Vlan30
+DistributionSWB#
+
+================================================================================
+END OF RAW OUTPUTS
+================================================================================
