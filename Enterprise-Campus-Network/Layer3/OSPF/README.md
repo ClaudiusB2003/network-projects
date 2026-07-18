@@ -10,7 +10,7 @@ Raw configurations are attached as separate `.txt` files.
 
 ---
 
-## 1. High-Level Overview
+## 1. Overview
 
 Only 4 of the roughly 16 devices in the lab speak OSPF. The rest (AccessSW A/B/C, iosvl2-0, DHCP/DNS server, PCs, mail server, web server) are plain Layer-2 switches or end devices without a routing process.
 
@@ -52,9 +52,7 @@ All networks live in **Area 0** (pure single-area design). The distribution swit
 | Edge_Router | 99.99.99.99 | manual: `router-id 99.99.99.99` | Lo0 = 99.99.99.99/32 |
 | Firewall (ASA) | 1.1.1.1 | manual: `router-id 1.1.1.1` | Lo0 = 1.1.1.1/32 (no `nameif`, exists only for the RID) |
 | DistributionSWA | 2.2.2.2 | manual: `router-id 2.2.2.2` | Lo0 = 2.2.2.2/32 |
-| DistributionSWB | 3.3.3.3 | **automatic** – no `router-id` configured, OSPF picks the highest loopback IP | Lo0 = 3.3.3.3/32 |
-
-> Since DistributionSWB's RID is not statically set, adding a higher loopback address later would change the router ID on the next OSPF process restart. For consistency with the other three devices, an explicit `router-id 3.3.3.3` command is recommended.
+| DistributionSWB | 3.3.3.3 | manual: `router-id 3.3.3.3` | Lo0 = 3.3.3.3/32 |
 
 ### 2.2 Networks per Device (all Area 0)
 
