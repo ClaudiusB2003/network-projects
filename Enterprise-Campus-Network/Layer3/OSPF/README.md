@@ -1,4 +1,4 @@
-# OSPF Documentation – Enterprise Campus & Security Lab
+# OSPF Documentation
 
 This README documents exclusively the **OSPF process 1** (single-area, Area 0).
 
