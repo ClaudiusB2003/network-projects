@@ -6,7 +6,7 @@ Document structure:
 1. [High-Level Overview](#1-high-level-overview) – topology, devices, router IDs
 2. [Details](#2-details) – router IDs & loopbacks, networks per area, interface/network types, authentication, reference bandwidth & costs, other OSPF options, notable issues
 
-Raw configurations are attached as separate `.cfg` files (see [Attached Files](#attached-files)).
+Raw configurations are attached as separate `.txt` files.
 
 ---
 
