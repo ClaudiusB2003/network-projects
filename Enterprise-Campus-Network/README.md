@@ -23,6 +23,7 @@ This lab builds a realistic enterprise campus network featuring network segmenta
 - VLANs & 802.1Q Trunking
 - Portchannel
 - Switched Virtual Interfaces (SVIs)
+- IPv4 / IPv6
 - HSRP (First Hop Redundancy)
 - Spanning Tree Root Bridge Design
 - Access Control Lists (ACLs)
