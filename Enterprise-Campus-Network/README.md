@@ -2,7 +2,8 @@
 
 > 🚧 **Work in Progress**
 
-<img width="1015" height="714" alt="image" src="https://github.com/user-attachments/assets/f6aab16b-bab4-44cf-baf8-764bb222cfd4" />
+<img width="1121" height="726" alt="image" src="https://github.com/user-attachments/assets/89865732-e45a-4d32-ac6d-a83ff2338359" />
+
 
 # Lab 1 – Enterprise Campus & Security
 
