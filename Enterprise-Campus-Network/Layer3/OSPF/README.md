@@ -1,25 +1,25 @@
-# OSPF-Dokumentation – Enterprise Campus & Security Lab
+# OSPF Documentation – Enterprise Campus & Security Lab
 
-Diese README dokumentiert ausschließlich den **OSPF-Prozess 1** (Single-Area, Area 0) aus dem Lab `Enterprise_Campus___Security.yaml`.
+This README documents exclusively the **OSPF process 1** (single-area, Area 0).
 
-Aufbau des Dokuments:
-1. [Grober Überblick](#1-grober-überblick) – Topologie, Geräte, Router-IDs
-2. [Details](#2-details) – Router-IDs & Loopbacks, Networks je Area, Interface-/Network-Types, Authentication, Reference Bandwidth & Costs, Sonstige OSPF-Optionen, Auffälligkeiten
+Document structure:
+1. [High-Level Overview](#1-high-level-overview) – topology, devices, router IDs
+2. [Details](#2-details) – router IDs & loopbacks, networks per area, interface/network types, authentication, reference bandwidth & costs, other OSPF options, notable issues
 
-Rohkonfigurationen liegen als separate `.cfg`-Dateien bei (siehe [Beiliegende Dateien](#beiliegende-dateien)).
+Raw configurations are attached as separate `.cfg` files (see [Attached Files](#attached-files)).
 
 ---
 
-## 1. Grober Überblick
+## 1. High-Level Overview
 
-Nur 4 von ca. 16 Geräten im Lab sprechen OSPF. Der Rest (AccessSW A/B/C, iosvl2-0, DHCP/DNS-Server, PCs, Mailserver, Webserver) sind reine Layer-2-Switches bzw. Endgeräte ohne Routing-Prozess.
+Only 4 of the roughly 16 devices in the lab speak OSPF. The rest (AccessSW A/B/C, iosvl2-0, DHCP/DNS server, PCs, mail server, web server) are plain Layer-2 switches or end devices without a routing process.
 
-| Gerät | Rolle | Router-ID |
+| Device | Role | Router ID |
 |---|---|---|
-| **Edge_Router** | Internet-Edge-Router | `99.99.99.99` |
-| **Firewall** (ASAv) | Perimeter-Firewall / L3-Hub | `1.1.1.1` |
-| **DistributionSWA** | Distribution-Layer | `2.2.2.2` |
-| **DistributionSWB** | Distribution-Layer | `3.3.3.3` |
+| **Edge_Router** | Internet edge router | `99.99.99.99` |
+| **Firewall** (ASAv) | Perimeter firewall / L3 hub | `1.1.1.1` |
+| **DistributionSWA** | Distribution layer | `2.2.2.2` |
+| **DistributionSWB** | Distribution layer | `3.3.3.3` |
 
 ```
                          Internet (DHCP, Gi0/15)
@@ -39,44 +39,44 @@ Nur 4 von ca. 16 Geräten im Lab sprechen OSPF. Der Rest (AccessSW A/B/C, iosvl2
                     └───────────┘    └───────────┘
 ```
 
-Alle Netze liegen in **Area 0** (reines Single-Area-Design). Die Distribution-Switches verteilen zusätzlich die VLANs 10 (UserA), 20 (UserB), 30 (Server) und 99 (MGMT) sowie eine vom Edge_Router injizierte Default-Route (`default-information originate`).
+All networks live in **Area 0** (pure single-area design). The distribution switches additionally distribute VLANs 10 (UserA), 20 (UserB), 30 (Server), and 99 (MGMT), plus a default route injected by the Edge_Router (`default-information originate`).
 
 ---
 
 ## 2. Details
 
-### 2.1 Router-IDs & Loopbacks
+### 2.1 Router IDs & Loopbacks
 
-| Gerät | Router-ID | Herkunft | Loopback-Interface |
+| Device | Router ID | Source | Loopback Interface |
 |---|---|---|---|
-| Edge_Router | 99.99.99.99 | manuell: `router-id 99.99.99.99` | Lo0 = 99.99.99.99/32 |
-| Firewall (ASA) | 1.1.1.1 | manuell: `router-id 1.1.1.1` | Lo0 = 1.1.1.1/32 (kein `nameif`, dient nur der RID) |
-| DistributionSWA | 2.2.2.2 | manuell: `router-id 2.2.2.2` | Lo0 = 2.2.2.2/32 |
-| DistributionSWB | 3.3.3.3 | **automatisch** – kein `router-id` gesetzt, OSPF zieht die höchste Loopback-IP | Lo0 = 3.3.3.3/32 |
+| Edge_Router | 99.99.99.99 | manual: `router-id 99.99.99.99` | Lo0 = 99.99.99.99/32 |
+| Firewall (ASA) | 1.1.1.1 | manual: `router-id 1.1.1.1` | Lo0 = 1.1.1.1/32 (no `nameif`, exists only for the RID) |
+| DistributionSWA | 2.2.2.2 | manual: `router-id 2.2.2.2` | Lo0 = 2.2.2.2/32 |
+| DistributionSWB | 3.3.3.3 | **automatic** – no `router-id` configured, OSPF picks the highest loopback IP | Lo0 = 3.3.3.3/32 |
 
-> Da bei DistributionSWB die RID nicht statisch gesetzt ist, würde ein späteres Hinzufügen einer höheren Loopback-Adresse die Router-ID beim nächsten OSPF-Neustart ändern. Zur Konsistenz mit den anderen drei Geräten wäre ein expliziter `router-id 3.3.3.3`-Befehl empfehlenswert.
+> Since DistributionSWB's RID is not statically set, adding a higher loopback address later would change the router ID on the next OSPF process restart. For consistency with the other three devices, an explicit `router-id 3.3.3.3` command is recommended.
 
-### 2.2 Networks je Gerät (alle Area 0)
+### 2.2 Networks per Device (all Area 0)
 
 **Edge_Router**
 ```
-network 10.0.0.0 0.0.0.3 area 0            ! Transit zur Firewall (Outside)
-network 99.99.99.99 0.0.0.0 area 0         ! eigenes Loopback
+network 10.0.0.0 0.0.0.3 area 0            ! Transit to the firewall (Outside)
+network 99.99.99.99 0.0.0.0 area 0         ! own loopback
 ```
 
 **Firewall**
 ```
 network 1.1.1.1 255.255.255.255 area 0
-network 10.0.0.0 255.255.255.252 area 0     ! zu Edge_Router
-network 10.100.1.0 255.255.255.252 area 0   ! zu DistributionSWA
-network 10.200.2.0 255.255.255.252 area 0   ! zu DistributionSWB
-network 172.16.10.0 255.255.255.0 area 0    ! DMZ-Segment
+network 10.0.0.0 255.255.255.252 area 0     ! to Edge_Router
+network 10.100.1.0 255.255.255.252 area 0   ! to DistributionSWA
+network 10.200.2.0 255.255.255.252 area 0   ! to DistributionSWB
+network 172.16.10.0 255.255.255.0 area 0    ! DMZ segment
 ```
 
 **DistributionSWA**
 ```
 network 2.2.2.2 0.0.0.0 area 0
-network 10.100.1.0 0.0.0.3 area 0     ! zur Firewall
+network 10.100.1.0 0.0.0.3 area 0     ! to the firewall
 network 10.100.99.0 0.0.0.255 area 0  ! VLAN 99 (MGMT)
 network 192.168.10.0 0.0.0.255 area 0 ! VLAN 10 (UserA)
 network 192.168.20.0 0.0.0.255 area 0 ! VLAN 20 (UserB)
@@ -87,15 +87,15 @@ network 192.168.30.0 0.0.0.255 area 0 ! VLAN 30 (Server)
 ```
 network 3.3.3.3 0.0.0.0 area 0
 network 10.100.99.0 0.0.0.255 area 0  ! VLAN 99 (MGMT)
-network 10.200.2.0 0.0.0.3 area 0     ! zur Firewall
+network 10.200.2.0 0.0.0.3 area 0     ! to the firewall
 network 192.168.10.0 0.0.0.255 area 0
 network 192.168.20.0 0.0.0.255 area 0
 network 192.168.30.0 0.0.0.255 area 0
 ```
 
-**Alle Präfixe im Überblick:**
+**All prefixes at a glance:**
 
-| Präfix | Beschreibung | Announced von |
+| Prefix | Description | Announced by |
 |---|---|---|
 | 99.99.99.99/32 | Loopback Edge_Router | Edge_Router |
 | 1.1.1.1/32 | Loopback Firewall | Firewall |
@@ -104,35 +104,35 @@ network 192.168.30.0 0.0.0.255 area 0
 | 10.0.0.0/30 | Transit Edge_Router ↔ Firewall | Edge_Router, Firewall |
 | 10.100.1.0/30 | Transit Firewall ↔ DistributionSWA | Firewall, DistributionSWA |
 | 10.200.2.0/30 | Transit Firewall ↔ DistributionSWB | Firewall, DistributionSWB |
-| 172.16.10.0/24 | DMZ-Segment (Mail-/Webserver via iosvl2-0) | Firewall |
+| 172.16.10.0/24 | DMZ segment (mail/web server via iosvl2-0) | Firewall |
 | 10.100.99.0/24 | VLAN 99 – Management | DistributionSWA, DistributionSWB |
 | 192.168.10.0/24 | VLAN 10 – UserA | DistributionSWA, DistributionSWB |
 | 192.168.20.0/24 | VLAN 20 – UserB | DistributionSWA, DistributionSWB |
 | 192.168.30.0/24 | VLAN 30 – Server | DistributionSWA, DistributionSWB |
-| 0.0.0.0/0 | Default-Route Richtung Internet | Edge_Router (`default-information originate`) |
+| 0.0.0.0/0 | Default route toward the Internet | Edge_Router (`default-information originate`) |
 
-### 2.3 Interfaces & Network-Types
+### 2.3 Interfaces & Network Types
 
-| Link | Interface A | Interface B | IP A | IP B | Network-Type A | Network-Type B |
+| Link | Interface A | Interface B | IP A | IP B | Network Type A | Network Type B |
 |---|---|---|---|---|---|---|
 | Edge_Router ↔ Firewall | Gi0/0 | Gi0/0 (Outside) | 10.0.0.2/30 | 10.0.0.1/30 | `point-to-point` | `point-to-point non-broadcast` |
 | Firewall ↔ DistributionSWA | Gi0/1 (DistributionSWA) | Gi1/1 | 10.100.1.1/30 | 10.100.1.2/30 | `point-to-point non-broadcast` | `point-to-point` |
 | Firewall ↔ DistributionSWB | Gi0/2 (DistributionSWB) | Gi1/2 | 10.200.2.1/30 | 10.200.2.2/30 | `point-to-point non-broadcast` | `point-to-point` |
-| Firewall ↔ DMZ | Gi0/8 | — (kein OSPF-Nachbar) | 172.16.10.254/24 | — | Broadcast (Default) | — |
+| Firewall ↔ DMZ | Gi0/8 | — (no OSPF neighbor) | 172.16.10.254/24 | — | Broadcast (default) | — |
 
-**Zum Network-Type `non-broadcast` auf der Firewall:** Da bei diesem Typ keine Multicast-Hellos verschickt werden, sind auf der ASA explizite `neighbor`-Statements zwingend nötig:
+**On the `non-broadcast` network type on the firewall:** since this type does not send multicast hellos, explicit `neighbor` statements are mandatory on the ASA:
 ```
 neighbor 10.200.2.2
 neighbor 10.100.1.2
 neighbor 10.0.0.2
 ```
-Auf den IOS-Gegenstellen fehlt das Schlüsselwort `non-broadcast`, dort reicht der einfache `point-to-point`-Typ (Multicast-Hellos). Beide Seiten bilden trotzdem eine Adjazenz, weil die ASA dank der `neighbor`-Einträge Unicast-Hellos an die bekannten Nachbarn schickt – das ist aber eine Typ-Inkonsistenz zwischen den Enden und sollte im Hinterkopf behalten werden, falls künftig Adjazenzprobleme auftreten.
+The IOS peers are missing the `non-broadcast` keyword; a plain `point-to-point` type (multicast hellos) is enough on their side. Both ends still form an adjacency because the ASA sends unicast hellos to its known neighbors thanks to the `neighbor` entries — but this is a type mismatch between the two ends and worth keeping in mind if adjacency issues ever show up.
 
 ### 2.4 Authentication
 
-Alle vier Punkt-zu-Punkt-Links zwischen den OSPF-Routern nutzen **einfache (Plaintext) OSPF-Authentifizierung** mit demselben Pre-Shared-Key:
+All four point-to-point links between the OSPF routers use **simple (plaintext) OSPF authentication** with the same pre-shared key:
 
-| Link | Befehle (IOS-Seite) | Befehle (ASA-Seite) |
+| Link | Commands (IOS side) | Commands (ASA side) |
 |---|---|---|
 | Edge_Router ↔ Firewall | `ip ospf authentication` / `ip ospf authentication-key edv12345` | `ospf authentication` / `ospf authentication-key edv12345` |
 | Firewall ↔ DistributionSWA | – | `ospf authentication` / `ospf authentication-key edv12345` |
@@ -140,22 +140,22 @@ Alle vier Punkt-zu-Punkt-Links zwischen den OSPF-Routern nutzen **einfache (Plai
 | DistributionSWA ↔ Firewall (Gi1/1) | `ip ospf authentication` / `ip ospf authentication-key edv12345` | – |
 | DistributionSWB ↔ Firewall (Gi1/2) | `ip ospf authentication` / `ip ospf authentication-key edv12345` | – |
 
-- Key: `edv12345` (identisch auf allen Interfaces, keine Key-Rotation konfiguriert)
-- Es handelt sich um **Type-1 (Plaintext) Authentication**, nicht MD5 (`message-digest`) – auf keinem Interface findet sich `authentication message-digest` oder ein `key-chain`. Für produktive Umgebungen wäre MD5- oder Key-Chain-basierte Authentifizierung empfehlenswert.
-- Die DMZ-Schnittstelle der Firewall (172.16.10.0/24) hat **keine** OSPF-Authentifizierung – unkritisch, da dort kein OSPF-Nachbar existiert.
+- Key: `edv12345` (identical on every interface, no key rotation configured)
+- This is **Type-1 (plaintext) authentication**, not MD5 (`message-digest`) — no interface uses `authentication message-digest` or a `key-chain`. For a production environment, MD5- or key-chain-based authentication would be advisable.
+- The firewall's DMZ interface (172.16.10.0/24) has **no** OSPF authentication — not critical, since there's no OSPF neighbor there anyway.
 
 ### 2.5 Reference Bandwidth & Costs
 
-| Gerät | `auto-cost reference-bandwidth` | Bemerkung |
+| Device | `auto-cost reference-bandwidth` | Note |
 |---|---|---|
-| Edge_Router | 10000 (Mbps, entspricht 10 Gbps) | explizit gesetzt |
-| DistributionSWA | 10000 | explizit gesetzt |
-| DistributionSWB | 10000 | explizit gesetzt |
-| Firewall (ASA) | *nicht konfiguriert* → ASA-Standardwert (100 Mbps) | **Inkonsistenz!** |
+| Edge_Router | 10000 (Mbps, i.e. 10 Gbps) | explicitly set |
+| DistributionSWA | 10000 | explicitly set |
+| DistributionSWB | 10000 | explicitly set |
+| Firewall (ASA) | *not configured* → ASA default (100 Mbps) | **inconsistency!** |
 
-> **Wichtige Auffälligkeit:** Die drei IOS-Geräte nutzen `reference-bandwidth 10000`, die ASA aber keinen expliziten Wert (ASA-Default = 100). Reference-Bandwidth sollte im gesamten OSPF-Prozess konsistent sein, sonst berechnen beide Seiten Kosten pro Link unterschiedlich. Bei reinen P2P-Links mit größtenteils manuell gesetzter Cost (s.u.) ist der praktische Effekt gering, sauberer wäre aber ein einheitlicher Wert.
+> **Notable issue:** the three IOS devices use `reference-bandwidth 10000`, while the ASA has no explicit value (ASA default = 100). Reference bandwidth should be consistent across the whole OSPF process, otherwise both sides calculate link cost differently. Since most links have a manually set cost anyway (see below), the practical impact is small, but a unified value would be cleaner.
 
-**Manuell gesetzte Interface-Costs (nur auf der Firewall):**
+**Manually set interface costs (firewall only):**
 
 | Interface | Cost |
 |---|---|
@@ -163,32 +163,32 @@ Alle vier Punkt-zu-Punkt-Links zwischen den OSPF-Routern nutzen **einfache (Plai
 | Gi0/1 (→ DistributionSWA) | 10 |
 | Gi0/2 (→ DistributionSWB) | 10 |
 
-Auf den IOS-Geräten (Edge_Router, DistributionSWA/B) ist **keine** manuelle Interface-Cost gesetzt – dort gilt die automatische Berechnung aus Bandbreite/Reference-Bandwidth (bei Gigabit-Interfaces und Reference-BW 10000 ergibt sich Cost = 10).
+The IOS devices (Edge_Router, DistributionSWA/B) have **no** manual interface cost set — the automatic calculation from bandwidth/reference-bandwidth applies there (for Gigabit interfaces with reference-bandwidth 10000, that works out to a cost of 10).
 
-### 2.6 Sonstige OSPF-Optionen
+### 2.6 Other OSPF Options
 
-- **Passive Interfaces:** Nur `Edge_Router Gi0/15` (Internet-Uplink) ist passiv – verhindert versehentliche OSPF-Adjazenzen Richtung Internet.
-- **Default-Route-Injection:** `default-information originate` nur auf dem Edge_Router, verteilt die statische Default-Route (`ip route 0.0.0.0 0.0.0.0 Gi0/15`) als externe Route ins Backbone.
-- **Redistribution:** Keine weitere Redistribution (kein BGP/Static außer der Default-Route) konfiguriert.
-- **Stub/NSSA-Areas:** Keine – reines Single-Area-0-Design, keine Area-Typen im Einsatz.
-- **Timers (Hello/Dead):** Nirgends manuell verändert → es gelten die Defaults des jeweiligen Network-Types (P2P: Hello 10s / Dead 40s).
+- **Passive interfaces:** only `Edge_Router Gi0/15` (Internet uplink) is passive — prevents accidental OSPF adjacencies toward the Internet.
+- **Default route injection:** `default-information originate` only on the Edge_Router, distributing the static default route (`ip route 0.0.0.0 0.0.0.0 Gi0/15`) as an external route into the backbone.
+- **Redistribution:** no further redistribution (no BGP/static besides the default route) configured.
+- **Stub/NSSA areas:** none — pure single-Area-0 design, no area types in use.
+- **Timers (Hello/Dead):** not manually changed anywhere → the defaults for the respective network type apply (P2P: Hello 10s / Dead 40s).
 
-### 2.7 Zusammenfassung der Auffälligkeiten (für Troubleshooting/Hardening)
+### 2.7 Summary of Notable Issues (for troubleshooting/hardening)
 
-1. **Reference-Bandwidth-Inkonsistenz:** ASA nutzt Default (100), IOS-Geräte nutzen 10000 → sollte angeglichen werden.
-2. **Network-Type-Mismatch:** ASA-Seiten sind `point-to-point non-broadcast`, IOS-Gegenstellen nur `point-to-point` → funktioniert aktuell nur wegen der `neighbor`-Statements auf der ASA, ist aber unsauber.
-3. **Authentication ist nur Plaintext (Type 1),** kein MD5/Key-Chain – aus Sicherheitssicht verbesserungswürdig.
-4. **DistributionSWB hat keine explizite `router-id`** – Konsistenzrisiko bei künftigen Loopback-Änderungen.
+1. **Reference-bandwidth inconsistency:** ASA uses the default (100), IOS devices use 10000 → should be aligned.
+2. **Network-type mismatch:** ASA sides are `point-to-point non-broadcast`, IOS peers are just `point-to-point` → currently only works because of the `neighbor` statements on the ASA, but is not clean.
+3. **Authentication is plaintext only (Type 1)** — no MD5/key-chain, could be improved from a security standpoint.
+4. **DistributionSWB has no explicit `router-id`** — consistency risk if the loopback ever changes.
 
 ---
 
-## Beiliegende Dateien
+## Attached Files
 
-| Datei | Inhalt |
+| File | Content |
 |---|---|
-| `Edge_Router.cfg` | Vollständige IOS-Konfiguration des Edge-Routers |
-| `DistributionSWA.cfg` | Vollständige IOS-Konfiguration von DistributionSWA |
-| `DistributionSWB.cfg` | Vollständige IOS-Konfiguration von DistributionSWB |
-| `Firewall_ASA.cfg` | Vollständige ASA-Konfiguration der Firewall (inkl. Zertifikatsketten) |
+| `Edge_Router.cfg` | Full IOS configuration of the edge router |
+| `DistributionSWA.cfg` | Full IOS configuration of DistributionSWA |
+| `DistributionSWB.cfg` | Full IOS configuration of DistributionSWB |
+| `Firewall_ASA.cfg` | Full ASA configuration of the firewall (incl. certificate chains) |
 
-Diese Dateien sind 1:1 aus dem YAML-Lab-Export (`configuration.content`) extrahiert, ohne Kürzung.
+These files are extracted 1:1 from the YAML lab export (`configuration.content`), unabridged.
