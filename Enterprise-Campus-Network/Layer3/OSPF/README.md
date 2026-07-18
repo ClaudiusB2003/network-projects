@@ -180,3 +180,7 @@ The IOS devices (Edge_Router, DistributionSWA/B) have **no** manual interface co
 
 ---
 
+## Author
+
+Claudius B. 
+
