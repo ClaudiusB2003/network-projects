@@ -154,6 +154,7 @@ interface Vlan99
  standby 99 preempt
 !
 router ospf 1
+ router-id 3.3.3.3
  auto-cost reference-bandwidth 10000
  network 3.3.3.3 0.0.0.0 area 0
  network 10.100.99.0 0.0.0.255 area 0
