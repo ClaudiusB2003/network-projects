@@ -180,13 +180,3 @@ The IOS devices (Edge_Router, DistributionSWA/B) have **no** manual interface co
 
 ---
 
-## Attached Files
-
-| File | Content |
-|---|---|
-| `Edge_Router.cfg` | Full IOS configuration of the edge router |
-| `DistributionSWA.cfg` | Full IOS configuration of DistributionSWA |
-| `DistributionSWB.cfg` | Full IOS configuration of DistributionSWB |
-| `Firewall_ASA.cfg` | Full ASA configuration of the firewall (incl. certificate chains) |
-
-These files are extracted 1:1 from the YAML lab export (`configuration.content`), unabridged.
