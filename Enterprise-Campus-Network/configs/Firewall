@@ -3,7 +3,7 @@
 : 
 : Serial Number: 9AKEF4XG58P
 : Hardware:   ASAv, 2048 MB RAM, CPU Ryzen Zen 2 3900 MHz
-: Written by enable_15 at 14:49:50.615 UTC Fri Jul 3 2026
+: Written by enable_15 at 11:41:51.016 UTC Sun Jul 19 2026
 !
 ASA Version 9.24(1) 
 !
@@ -17,20 +17,34 @@ zone DMZ
 
 !
 interface GigabitEthernet0/0
- shutdown
- no nameif
- no security-level
- no ip address
+ nameif #Outside#
+ security-level 0
+ ip address 10.0.0.1 255.255.255.252 
+ ipv6 address 2001:db8:ffff:1::fe/126
+ ospf cost 1
+ ospf network point-to-point non-broadcast
+ ospf authentication-key edv12345
+ ospf authentication
 !
 interface GigabitEthernet0/1
- nameif #DistributionA#
+ nameif #DistributionSWA#
  security-level 100
  ip address 10.100.1.1 255.255.255.252 
+ ipv6 address 2001:db8:aaaa:1::f/126
+ ospf cost 10
+ ospf network point-to-point non-broadcast
+ ospf authentication-key edv12345
+ ospf authentication
 !
 interface GigabitEthernet0/2
  nameif #DistributionSWB#
  security-level 100
  ip address 10.200.2.1 255.255.255.252 
+ ipv6 address 2001:db8:bbbb:2::f/126
+ ospf cost 10
+ ospf network point-to-point non-broadcast
+ ospf authentication-key edv12345
+ ospf authentication
 !
 interface GigabitEthernet0/3
  shutdown
@@ -75,11 +89,16 @@ interface Management0/0
  security-level 0
  ip address 10.100.99.1 255.255.255.0 
 !
+interface Loopback0
+ no nameif
+ ip address 1.1.1.1 255.255.255.255 
+!
 banner login #Welcome to my Firewall friend
 ftp mode passive
 no object-group-search access-control
 pager lines 23
-mtu #DistributionA# 1500
+mtu #Outside# 1500
+mtu #DistributionSWA# 1500
 mtu #DistributionSWB# 1500
 mtu #DMZ# 1500
 mtu MGMT 1500
@@ -91,6 +110,18 @@ no asdm history enable
 arp timeout 14400
 no arp permit-nonconnected
 arp rate-limit 8192
+router ospf 1
+ router-id 1.1.1.1
+ network 1.1.1.1 255.255.255.255 area 0
+ network 10.0.0.0 255.255.255.252 area 0
+ network 10.100.1.0 255.255.255.252 area 0
+ network 10.200.2.0 255.255.255.252 area 0
+ network 172.16.10.0 255.255.255.0 area 0
+ neighbor 10.200.2.2
+ neighbor 10.100.1.2
+ neighbor 10.0.0.2
+ log-adj-changes
+!
 timeout xlate 3:00:00
 timeout pat-xlate 0:00:30
 timeout conn 1:00:00 half-closed 0:10:00 udp 0:02:00 sctp 0:02:00 icmp 0:00:02
@@ -249,6 +280,7 @@ policy-map global_policy
   inspect sqlnet 
   inspect sip  
   inspect skinny 
+  inspect icmp 
 policy-map type inspect dns migrated_dns_map_2
  parameters
   message-length maximum client auto
@@ -277,5 +309,5 @@ call-home
   subscribe-to-alert-group inventory periodic monthly
   subscribe-to-alert-group configuration periodic monthly
   subscribe-to-alert-group telemetry periodic daily
-Cryptochecksum:a90a4f3d7b6d824fdd845852eeef340b
+Cryptochecksum:8b4378d75cb91ee55dbe060c2e5c6478
 : end
