@@ -4,10 +4,7 @@
 
 <img width="1121" height="726" alt="image" src="https://github.com/user-attachments/assets/89865732-e45a-4d32-ac6d-a83ff2338359" />
 
-
-# Lab 1 – Enterprise Campus & Security
-
-## Overview
+# Overview
 
 This lab builds a realistic enterprise campus network featuring network segmentation, gateway redundancy, and perimeter security. It bridges CCNA-level fundamentals (VLANs, trunking, STP) with Security Basics (Firewalls, Policys etc.).
 
