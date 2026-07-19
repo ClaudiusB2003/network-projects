@@ -1,4 +1,4 @@
-# VLAN Plan
+# IPv4 and VLAN Plan
  
 Overview of the VLANs configured in the network, their assignment, and associated IP subnets.
  
