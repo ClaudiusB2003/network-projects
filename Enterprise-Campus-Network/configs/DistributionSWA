@@ -1,8 +1,8 @@
 Building configuration...
 
-Current configuration : 5223 bytes
+Current configuration : 5420 bytes
 !
-! Last configuration change at 14:09:20 UTC Mon Jul 13 2026 by Admin
+! Last configuration change at 11:40:38 UTC Sun Jul 19 2026 by Admin
 !
 version 15.2
 service timestamps debug datetime msec
@@ -88,6 +88,9 @@ interface GigabitEthernet1/1
  description #Uplink_Firewall#
  no switchport
  ip address 10.100.1.2 255.255.255.252
+ ip ospf authentication
+ ip ospf authentication-key edv12345
+ ip ospf network point-to-point
  negotiation auto
 !
 interface GigabitEthernet1/2
@@ -164,6 +167,9 @@ interface Vlan99
 !
 router ospf 1
  router-id 2.2.2.2
+ auto-cost reference-bandwidth 10000
+ network 2.2.2.2 0.0.0.0 area 0
+ network 10.100.1.0 0.0.0.3 area 0
  network 10.100.99.0 0.0.0.255 area 0
  network 192.168.10.0 0.0.0.255 area 0
  network 192.168.20.0 0.0.0.255 area 0
