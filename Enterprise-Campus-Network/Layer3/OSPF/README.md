@@ -121,17 +121,10 @@ The IOS devices don't set manual cost — it's calculated automatically (works o
 - **Passive interface:** only `Edge_Router Gi0/15` (Internet-facing) — stops OSPF from forming adjacencies toward the internet.
 - **Default route:** only the Edge_Router injects `0.0.0.0/0` via `default-information originate`.
 - **Redistribution:** none, apart from the default route.
-- **Areas:** single Area 0 only — no stub/NSSA.
+- **Areas:** single Area 0 only.
 - **Timers:** all default (Hello 10s / Dead 40s for P2P).
 
 ---
-
-## 8. Known Issues
-
-1. Reference bandwidth mismatch between ASA (100) and IOS (10000).
-2. Network type mismatch: ASA is `non-broadcast`, IOS is plain `point-to-point`.
-3. Authentication is plaintext, not MD5.
-4. DistributionSWB has no explicit `router-id` command.
 
 ---
 
