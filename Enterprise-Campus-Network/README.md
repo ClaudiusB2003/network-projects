@@ -2,7 +2,8 @@
 
 > 🚧 **Work in Progress**
 
-<img width="1121" height="726" alt="image" src="https://github.com/user-attachments/assets/89865732-e45a-4d32-ac6d-a83ff2338359" />
+<img width="1030" height="746" alt="image" src="https://github.com/user-attachments/assets/8c3345e3-a90c-463a-adb2-5422a935d16f" />
+
 
 # Overview
 
