@@ -20,17 +20,9 @@ This document describes the configuration and verification of a Layer 2 LACP Eth
 
 # Topology
 
-```
-                 LACP EtherChannel (Po1)
-      =========================================
 
-      DistributionSWA                DistributionSWB
-      ----------------                ----------------
-         Gi3/2  =====================  Gi3/2
-         Gi3/3  =====================  Gi3/3
+![Portchannel](Portchannel.png)
 
-                 Port-Channel1 (LACP)
-```
 
 ---
 
