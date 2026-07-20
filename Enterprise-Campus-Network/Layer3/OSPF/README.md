@@ -15,7 +15,9 @@ Only 4 devices run OSPF. Everything else (access switches, PCs, servers, DNS/DHC
 | DistributionSWA | Distribution switch | 2.2.2.2 |
 | DistributionSWB | Distribution switch | 3.3.3.3 |
 
+
 ![OSPF Topology](OSPF_Topology.png)
+
 
 Everything runs in **Area 0**. The two distribution switches also carry VLANs 10 (Users A), 20 (Users B), 30 (Servers), and 99 (Management). The Edge_Router injects a default route into OSPF.
 
