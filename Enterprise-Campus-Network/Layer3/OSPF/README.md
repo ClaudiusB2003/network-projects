@@ -16,7 +16,7 @@ Only 4 devices run OSPF. Everything else (access switches, PCs, servers, DNS/DHC
 | DistributionSWB | Distribution switch | 3.3.3.3 |
 
 ```
-![OSPF Topology](https://github.com/user-attachments/assets/8fed4331-a2b7-4af1-a75e-64d362f4da75)
+![OSPF Topology](OSPF_Topology.png)
 
 ```
 
