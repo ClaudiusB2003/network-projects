@@ -81,8 +81,6 @@ Every P2P link uses **simple plaintext OSPF authentication** with one shared key
 - This is Type-1 (plaintext), not MD5 — no encryption, no key-chain.
 - The DMZ interface has no authentication, but that's fine since there's no OSPF neighbor there.
 
-⚠️ Plaintext auth is fine for a lab, but MD5 or a key-chain would be recommended for production.
-
 ---
 
 ## 6. Reference Bandwidth & Cost
@@ -93,8 +91,6 @@ Every P2P link uses **simple plaintext OSPF authentication** with one shared key
 | DistributionSWA | 10000 |
 | DistributionSWB | 10000 |
 | Firewall (ASA) | not set → default 100 |
-
-⚠️ The ASA doesn't match the IOS devices, so cost calculations differ. Low impact here since the firewall has manual interface costs set anyway:
 
 | Firewall Interface | Cost |
 |---|---|
@@ -113,8 +109,6 @@ The IOS devices don't set manual cost — it's calculated automatically (works o
 - **Redistribution:** none, apart from the default route.
 - **Areas:** single Area 0 only.
 - **Timers:** all default (Hello 10s / Dead 40s for P2P).
-
----
 
 ---
 
