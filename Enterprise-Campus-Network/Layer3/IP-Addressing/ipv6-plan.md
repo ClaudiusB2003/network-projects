@@ -1,4 +1,4 @@
-# IPv6 Documentation – Edge Router / Firewall / Distribution Uplinks
+# IPv6 Plan
 
 This document describes the **IPv6 addressing design** for the transit links between the edge router, the firewall, and the two distribution switches (`DistributionSWA`, `DistributionSWB`).
 
