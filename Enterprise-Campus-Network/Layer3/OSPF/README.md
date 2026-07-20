@@ -42,8 +42,6 @@ All Router IDs are set manually via `router-id`, backed by a matching loopback i
 | DistributionSWA | 2.2.2.2 | Lo0 |
 | DistributionSWB | 3.3.3.3 | Lo0 |
 
-⚠️ DistributionSWB has no `router-id` command — its RID comes only from the loopback, which is a risk if that interface ever changes.
-
 ---
 
 ## 3. Networks (all in Area 0)
