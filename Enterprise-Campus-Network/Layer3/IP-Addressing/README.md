@@ -4,8 +4,7 @@ This folder documents the network configuration for the edge router, firewall, a
 
 ## Contents
 
-- IPv4 addressing and OSPF configuration
-- IPv6 addressing plan and interface configuration
-- HSRP / STP alignment for the distribution layer
+- IPv4 addressing plan
+- IPv6 addressing plan 
 
 Each device is configured for dual-stack operation, with parallel IPv4 and IPv6 addresses on all relevant interfaces.
