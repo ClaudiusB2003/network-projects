@@ -16,15 +16,8 @@ Only 4 devices run OSPF. Everything else (access switches, PCs, servers, DNS/DHC
 | DistributionSWB | Distribution switch | 3.3.3.3 |
 
 ```
-                     Internet
-                        │
-                 [ Edge_Router ]   RID 99.99.99.99
-                        │  10.0.0.0/30
-                 [   Firewall   ]   RID 1.1.1.1
-                        │  └─── DMZ 172.16.10.0/24
-          10.100.1.0/30 │              │ 10.200.2.0/30
-              [DistributionSWA]───[DistributionSWB]
-                RID 2.2.2.2           RID 3.3.3.3
+<img width="847" height="987" alt="OSPF_Topology" src="https://github.com/user-attachments/assets/8fed4331-a2b7-4af1-a75e-64d362f4da75" />
+
 ```
 
 Everything runs in **Area 0**. The two distribution switches also carry VLANs 10 (Users A), 20 (Users B), 30 (Servers), and 99 (Management). The Edge_Router injects a default route into OSPF.
