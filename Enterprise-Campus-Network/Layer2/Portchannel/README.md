@@ -18,7 +18,7 @@ This document describes the configuration and verification of a Layer 2 LACP Eth
 
 ---
 
-# Topology
+## Topology
 
 
 ![Portchannel](Portchannel.png)
