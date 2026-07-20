@@ -7,4 +7,4 @@ This folder documents the network configuration for the edge router, firewall, a
 - IPv4 addressing plan
 - IPv6 addressing plan 
 
-Each device is configured for dual-stack operation, with parallel IPv4 and IPv6 addresses on all relevant interfaces.
+Each Layer-3 device is configured for dual-stack operation, with parallel IPv4 and IPv6 addresses on all relevant interfaces.
