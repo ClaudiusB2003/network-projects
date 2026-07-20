@@ -15,6 +15,8 @@ The distribution layer switches (`DistributionSWA` and `DistributionSWB`) run **
 - **DistributionSWA** is the active gateway for **VLAN 10** and **VLAN 30**.
 - **DistributionSWB** is the active gateway for **VLAN 20** and **VLAN 99**.
 
+![hsrp-topology](hsrp-topology.png)
+
 ## Configuration
 
 ### DistributionSWA
