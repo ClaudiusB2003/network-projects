@@ -46,6 +46,7 @@ This lab builds a realistic enterprise campus network featuring network segmenta
 - ACLs
 - NAT
 - DNS
+- Network Security
 - Zones
 - Firewall Rules
 
