@@ -35,6 +35,7 @@ This lab builds a realistic enterprise campus network featuring network segmenta
 - HSRP
 - SVIs
 - Inter-VLAN Routing
+- VTP
 - Default Route
 - Spanning Tree
 - Portchannel
